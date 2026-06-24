@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Todo App</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#61d4c3,#4a73ff);
+}
+
+.container{
+    width:450px;
+    background:#fff;
+    padding:30px;
+    border-radius:8px;
+    box-shadow:0 10px 20px rgba(0,0,0,0.2);
+}
+
+h1{
+    margin-bottom:20px;
+    font-size:42px;
+}
+
+.input-box{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.input-box input{
+    flex:1;
+    padding:15px;
+    border:1px solid #ddd;
+    border-radius:4px;
+    font-size:18px;
+}
+
+.add-btn{
+    width:55px;
+    border:none;
+    background:#8e44ec;
+    color:white;
+    font-size:30px;
+    border-radius:4px;
+    cursor:pointer;
+}
+
+.add-btn:hover{
+    background:#7d33dd;
+}
+
+ul{
+    list-style:none;
+}
+
+li{
+    background:#f2f2f2;
+    margin-bottom:10px;
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-radius:4px;
+}
+
+.delete-btn{
+    border:none;
+    background:#e74c3c;
+    color:white;
+    width:40px;
+    height:40px;
+    border-radius:4px;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.footer{
+    margin-top:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.clear-btn{
+    border:none;
+    background:#8e44ec;
+    color:white;
+    padding:10px 18px;
+    border-radius:4px;
+    cursor:pointer;
+}
+
+.clear-btn:hover{
+    background:#7d33dd;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Todo App</h1>
+
+    <div class="input-box">
+        <input type="text" id="todoInput" placeholder="Add your new todo">
+        <button class="add-btn" onclick="addTodo()">+</button>
+    </div>
+
+    <ul id="todoList">
+        <li>
+            Buy a new gaming laptop
+            <button class="delete-btn" onclick="deleteTodo(this)">🗑</button>
+        </li>
+        <li>
+            Complete a previous task
+            <button class="delete-btn" onclick="deleteTodo(this)">🗑</button>
+        </li>
+        <li>Create video for YouTube</li>
+        <li>Create a new portfolio site</li>
+    </ul>
+
+    <div class="footer">
+        <span id="taskCount">You have 4 pending tasks</span>
+        <button class="clear-btn" onclick="clearAll()">Clear All</button>
+    </div>
+</div>
+
+<script>
+const input = document.getElementById("todoInput");
+const todoList = document.getElementById("todoList");
+const taskCount = document.getElementById("taskCount");
+
+function updateCount(){
+    const count = todoList.children.length;
+    taskCount.textContent = `You have ${count} pending tasks`;
+}
+
+function addTodo(){
+    const text = input.value.trim();
+
+    if(text === "") return;
+
+    const li = document.createElement("li");
+
+    li.innerHTML = `
+        ${text}
+        <button class="delete-btn" onclick="deleteTodo(this)">🗑</button>
+    `;
+
+    todoList.appendChild(li);
+    input.value = "";
+    updateCount();
+}
+
+function deleteTodo(button){
+    button.parentElement.remove();
+    updateCount();
+}
+
+function clearAll(){
+    todoList.innerHTML = "";
+    updateCount();
+}
+
+updateCount();
+
+input.addEventListener("keypress", function(e){
+    if(e.key === "Enter"){
+        addTodo();
+    }
+});
+</script>
+
+</body>
+</html>
